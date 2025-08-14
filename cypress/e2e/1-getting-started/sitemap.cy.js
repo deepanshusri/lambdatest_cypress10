@@ -1,21 +1,15 @@
 /// <reference types="cypress" />
 
-describe('Sitemap Test', () => {
-  let urls = [];
+// Load JSON synchronously before defining tests
+const sitemap = require('../../fixtures/sitemap.json');
+const urls = sitemap.urls.slice(0, 50); // Optional limit
 
-  before(() => {
-    cy.fixture('sitemap').then((data) => {
-      urls = data.urls;
-    });
-  });
-
+describe('JSON Sitemap Test', () => {
   urls.forEach((url) => {
     it(`Visits ${url}`, () => {
       cy.visit(url);
+      cy.get('body').should('exist'); // Example assertion
       cy.log(`Visited: ${url}`);
-
-      // Your assertions go here
-      cy.get('body').should('exist'); // example
     });
   });
 });
